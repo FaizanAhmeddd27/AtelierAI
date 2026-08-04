@@ -1,0 +1,47 @@
+[
+  {
+    "id": "demo_30",
+    "title": "Cubist Portrait Study",
+    "style_name": "Cubist Painting",
+    "alpha": 0.3,
+    "content": "sample_demo_30_content.jpg",
+    "style": "sample_demo_30_style.jpg",
+    "result": "sample_demo_30_result.jpg"
+  },
+  {
+    "id": "demo_50",
+    "title": "Cubist Portrait Study",
+    "style_name": "Cubist Painting",
+    "alpha": 0.5,
+    "content": "sample_demo_50_content.jpg",
+    "style": "sample_demo_50_style.jpg",
+    "result": "sample_demo_50_result.jpg"
+  },
+  {
+    "id": "demo_70",
+    "title": "Cubist Portrait Study",
+    "style_name": "Cubist Painting",
+    "alpha": 0.7,
+    "content": "sample_demo_70_content.jpg",
+    "style": "sample_demo_70_style.jpg",
+    "result": "sample_demo_70_result.jpg"
+  },
+  {
+    "id": "demo_85",
+    "title": "Cubist Portrait Study",
+    "style_name": "Cubist Painting",
+    "alpha": 0.85,
+    "content": "sample_demo_85_content.jpg",
+    "style": "sample_demo_85_style.jpg",
+    "result": "sample_demo_85_result.jpg"
+  },
+  {
+    "id": "demo_100",
+    "title": "Cubist Portrait Study",
+    "style_name": "Cubist Painting",
+    "alpha": 1.0,
+    "content": "sample_demo_100_content.jpg",
+    "style": "sample_demo_100_style.jpg",
+    "result": "sample_demo_100_result.jpg"
+  }
+]

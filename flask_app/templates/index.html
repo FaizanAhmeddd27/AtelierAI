@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atelier AI — Neural Style Transfer</title>
+  <meta name="description" content="Transform any photo with the style of any artwork in seconds. Atelier AI runs a local AdaIN neural network.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  {% include '_nav.html' %}
+
+  <main>
+    <section class="hero" id="hero">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-glow"></div>
+      <div class="hero-inner">
+        <span class="badge"><span class="badge-dot"></span>Local neural engine · AdaIN</span>
+        <h1 class="hero-title">Create beautiful.<br>Beyond boundaries.<br><span class="hero-accent">Infinite style.</span></h1>
+        <p class="hero-sub">Upload a photo and an artwork. Atelier AI transfers the painter's stroke, color, and mood onto your image in seconds — all in your browser session.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#upload">Start creating</a>
+          <a class="btn btn-ghost" href="#gallery">See examples</a>
+        </div>
+        <div class="hero-meta">
+          <span>01 · Drop content + style</span>
+          <span>02 · Pick strength</span>
+          <span>03 · Download art</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section how" id="how">
+      <div class="container">
+        <span class="kicker">How it works</span>
+        <h2 class="section-title">Three steps to your masterpiece</h2>
+        <div class="steps">
+          <article class="card step reveal">
+            <span class="step-num">01</span>
+            <h3>Upload two images</h3>
+            <p>Your photo as the content and any artwork as the style — a portrait, a landscape, a painting.</p>
+          </article>
+          <article class="card step reveal">
+            <span class="step-num">02</span>
+            <h3>The network blends them</h3>
+            <p>A frozen VGG19 encoder extracts features, AdaIN aligns style statistics, and a trained decoder renders the result.</p>
+          </article>
+          <article class="card step reveal">
+            <span class="step-num">03</span>
+            <h3>Tune and download</h3>
+            <p>Slide style strength to fine-tune, compare before and after, then download or share your art.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section gallery" id="gallery">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Style gallery</span>
+            <h2 class="section-title">Real transformations, generated live</h2>
+          </div>
+          <p class="section-note">Every example below is produced by the actual model powering this studio — no stock images.</p>
+        </div>
+        <div class="gallery-grid" id="gallery-grid">
+          <div class="gallery-card card skeleton"></div>
+          <div class="gallery-card card skeleton"></div>
+          <div class="gallery-card card skeleton"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section studio" id="upload">
+      <div class="container">
+        <div class="studio-card">
+          <span class="kicker kicker-light">Create now</span>
+          <h2 class="section-title light">Transform your image</h2>
+          <form id="stylize-form" enctype="multipart/form-data" novalidate>
+            <div class="drop-row">
+              <label class="dropzone" id="dz-content" data-role="content">
+                <input type="file" name="content_image" accept="image/*" hidden>
+                <span class="dz-icon" id="ic-content">+</span>
+                <span class="dz-label">Drop content image</span>
+                <span class="dz-hint">Your photo</span>
+                <img class="dz-preview" id="pv-content" alt="" hidden>
+              </label>
+              <label class="dropzone" id="dz-style" data-role="style">
+                <input type="file" name="style_image" accept="image/*" hidden>
+                <span class="dz-icon" id="ic-style">+</span>
+                <span class="dz-label">Drop style image</span>
+                <span class="dz-hint">Artwork / painting</span>
+                <img class="dz-preview" id="pv-style" alt="" hidden>
+              </label>
+            </div>
+            <div class="alpha-row">
+              <div class="alpha-head">
+                <span class="alpha-label">Style strength</span>
+                <span class="alpha-value" id="alpha-value">0.70</span>
+              </div>
+              <input type="range" id="alpha" name="alpha" min="0.1" max="1" step="0.05" value="0.7">
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="generate-btn">
+              <span id="btn-label">Generate artwork</span>
+            </button>
+            <div class="progress" id="progress" hidden>
+              <div class="progress-bar" id="progress-bar"><span id="progress-text">Starting…</span></div>
+            </div>
+            <p class="form-error" id="form-error" hidden></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section features" id="features">
+      <div class="container">
+        <span class="kicker">Features</span>
+        <h2 class="section-title">Why Atelier AI</h2>
+        <div class="feature-grid">
+          <article class="card feature reveal">
+            <svg viewBox="0 0 24 24" class="f-icon"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            <h3>Seconds, not hours</h3>
+            <p>Feed-forward AdaIN renders a full stylization in a few seconds on CPU — no fine-tuning per image.</p>
+          </article>
+          <article class="card feature reveal">
+            <svg viewBox="0 0 24 24" class="f-icon"><path d="M12 2a7 7 0 0 0-4 12.7V17a2 2 0 0 0 4 0v-2.3A7 7 0 0 0 12 2zM9 20h6M10 23h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Style strength control</h3>
+            <p>Re-stylize with a single slider. Blend content and style from subtle to full painterly expression.</p>
+          </article>
+          <article class="card feature reveal">
+            <svg viewBox="0 0 24 24" class="f-icon"><path d="M7 21h10M9 21V9a3 3 0 0 1 6 0v12M5 7h14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Classic AdaIN architecture</h3>
+            <p>A VGG19 encoder, adaptive instance normalization, and a mirror decoder — the reference NST approach.</p>
+          </article>
+          <article class="card feature reveal">
+            <svg viewBox="0 0 24 24" class="f-icon"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <h3>Runs on your machine</h3>
+            <p>Inference is local and private — your images never leave this process.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section showcase" id="showcase">
+      <div class="container">
+        <span class="kicker kicker-light">Sample results</span>
+        <h2 class="section-title light">See the network in motion</h2>
+        <div class="carousel">
+          <div class="carousel-window" id="carousel-window"></div>
+          <button class="carousel-btn carousel-prev" id="carousel-prev" aria-label="Previous">‹</button>
+          <button class="carousel-btn carousel-next" id="carousel-next" aria-label="Next">›</button>
+          <div class="carousel-dots" id="carousel-dots"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% include '_footer.html' %}
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

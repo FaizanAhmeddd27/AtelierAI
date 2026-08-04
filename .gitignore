@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# PyTorch model weights (large, regenerate via training)
+flask_app/models/*.pth
+
+# User uploads and generated results (runtime data)
+flask_app/static/uploads/
+flask_app/static/results/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment variables
+.env
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# Logs
+*.log
