@@ -1,4 +1,3 @@
-/* Atelier AI — results page */
 (function () {
   "use strict";
 

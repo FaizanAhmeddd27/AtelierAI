@@ -1,8 +1,6 @@
 <div align="center">
 
-<a href="http://localhost:5000">
-  <img src="docs/screenshots/ui/hero.png" alt="Atelier AI — Neural Style Transfer Studio" width="900">
-</a>
+# Atelier AI
 
 ### Neural style transfer studio — turn any photo into art using the style of any artwork, powered by a local AdaIN network.
 
@@ -12,8 +10,6 @@
   <img src="https://img.shields.io/badge/VGG19-Encoder-76B900?logo=python&logoColor=white" alt="VGG19">
   <img src="https://img.shields.io/badge/AdaIN-Algorithm-F59E0B" alt="AdaIN">
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/Geist-Font-000000" alt="Geist">
-  <img src="https://img.shields.io/badge/JetBrains_Mono-Font-FF2D20" alt="JetBrains Mono">
 </p>
 
 <p>
@@ -36,7 +32,6 @@
 | Upload | Tune alpha | Download |
 |:------:|:----------:|:--------:|
 | **Drag & drop any two images** | **Slide 0.1 – 1.0 in real time** | **One-click save** |
-| ![Upload](docs/screenshots/ui/upload.png) | ![Results](docs/screenshots/ui/results.png) | ![Download](docs/screenshots/ui/download.png) |
 
 <br>
 
