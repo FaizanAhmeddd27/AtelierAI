@@ -7,6 +7,7 @@ from flask import Flask, jsonify, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
 
 from .inference import preview_image, style_transfer
+from werkzeug.exceptions import HTTPException
 
 
 app = Flask(__name__)
@@ -172,6 +173,24 @@ def api_samples():
             item["result_url"] = url_for("static", filename=f"gallery/{item['result']}")
         return jsonify(data)
     return jsonify([])
+
+
+@app.errorhandler(Exception)
+def handle_uncaught(err):
+    """Return JSON for AJAX requests on unexpected server errors, otherwise render a simple message."""
+    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    # If it's an HTTPException, use its code and description
+    code = 500
+    msg = "Internal server error"
+    if isinstance(err, HTTPException):
+        code = err.code or 500
+        msg = getattr(err, 'description', str(err))
+    else:
+        msg = str(err)
+    app.logger.exception("Unhandled exception: %s", err)
+    if is_ajax:
+        return jsonify({"error": msg}), code
+    return render_template("error.html", error=msg), code
 
 
 if __name__ == "__main__":

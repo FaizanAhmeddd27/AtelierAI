@@ -182,9 +182,19 @@
         headers: { "X-Requested-With": "XMLHttpRequest" },
         body: fd
       })
-        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+        .then(function (r) {
+          return r.text().then(function (text) {
+            var data = null;
+            try { data = text ? JSON.parse(text) : null; } catch (e) { data = null; }
+            return { ok: r.ok, data: data, text: text };
+          });
+        })
         .then(function (res) {
-          if (!res.ok) throw new Error(res.data.error || "Processing failed.");
+          if (!res.ok) {
+            var msg = (res.data && res.data.error) || res.text || "Processing failed.";
+            throw new Error(msg);
+          }
+          if (!res.data) throw new Error("Empty response from server.");
           text.textContent = "Done";
           bar.style.width = "100%";
           window.location.href = "/stylize?uid=" + res.data.uid;
@@ -193,7 +203,7 @@
           btn.disabled = false;
           btnLabel.textContent = "Generate artwork";
           progress.hidden = true;
-          showError(err.message);
+          showError(err.message || String(err));
         });
     });
   }
