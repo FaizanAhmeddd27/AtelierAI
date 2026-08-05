@@ -6,8 +6,7 @@ from pathlib import Path
 from flask import Flask, jsonify, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
 
-from inference import preview_image, style_transfer
-
+from .inference import preview_image, style_transfer
 
 
 app = Flask(__name__)

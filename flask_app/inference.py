@@ -5,7 +5,7 @@ import numpy as np
 import torch
 from torchvision import transforms
 
-from network import AdaINNet, adain
+from .network import AdaINNet, adain
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
