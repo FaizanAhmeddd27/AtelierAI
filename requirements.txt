@@ -1,7 +1,6 @@
-Flask>=2.2
-torch==2.5.1+cpu
-torchvision==0.20.1+cpu
-Pillow>=9.0
-numpy>=1.24
-tqdm>=4.60
-gunicorn>=20.1
+Flask==3.0.0
+torch==2.1.0
+torchvision==0.16.0
+Pillow==10.1.0
+gunicorn==21.2.0
+Werkzeug==3.0.0
