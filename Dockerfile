@@ -24,4 +24,4 @@ RUN pip install --no-cache-dir -r requirements.txt --extra-index-url https://dow
 
 EXPOSE 5000
 
-CMD ["sh", "-c", "gunicorn -w 1 -b 0.0.0.0:${PORT} flask_app.app:app"]
+CMD ["sh", "-c", "gunicorn -w 1 -b 0.0.0.0:${PORT} flask_app.app:app --timeout 120"]

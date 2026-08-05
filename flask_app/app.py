@@ -77,6 +77,7 @@ def stylize():
         return bad("Please upload PNG, JPG, JPEG, BMP, or WEBP images.")
 
     uid = uuid.uuid4().hex
+    app.logger.info("Stylize request received; uid=%s filename=%s/%s", uid, content_file.filename, style_file.filename)
     content_name = f"{uid}_content_{secure_filename(content_file.filename)}"
     style_name = f"{uid}_style_{secure_filename(style_file.filename)}"
     content_path = UPLOAD_FOLDER / content_name
