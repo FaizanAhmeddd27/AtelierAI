@@ -1,6 +1,6 @@
 <div align="center">
 
-# Atelier AI
+<img src="flask_app/static/logo.png" alt="Atelier AI" width="200">
 
 ### Neural style transfer studio — turn any photo into art using the style of any artwork, powered by a local AdaIN network.
 

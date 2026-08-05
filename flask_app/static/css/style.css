@@ -111,12 +111,14 @@ button { font-family: inherit; }
 .nav-inner {
   max-width: 1180px;
   margin: 0 auto;
-  padding: 14px 24px;
+  /* reduce vertical padding so larger logo doesn't increase navbar height */
+  padding: 6px 24px;
   display: flex;
   align-items: center;
   gap: 24px;
 }
 .brand { display: inline-flex; align-items: center; gap: 10px; }
+.brand-logo { height: 64px; width: auto; max-width: 220px; object-fit: contain; display: block; }
 .brand-mark {
   width: 14px; height: 14px;
   border-radius: 50%;
@@ -476,6 +478,7 @@ input[type="range"]::-moz-range-thumb {
   gap: 48px;
 }
 .footer-brand .brand-name { color: var(--on-dark); }
+.footer-brand .brand-logo { height: 56px; filter: brightness(1.1); }
 .footer-tag { margin-top: 14px; font-size: 14px; max-width: 340px; }
 .footer-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .footer-cols h4 { color: var(--on-dark); font-size: 14px; font-weight: 600; margin-bottom: 12px; }
@@ -620,6 +623,7 @@ input[type="range"]::-moz-range-thumb {
   :root { --pad-sec: 48px; }
   .steps, .feature-grid, .gallery-grid, .drop-row { grid-template-columns: 1fr; }
   .nav-links { display: none; }
+  .brand-logo { height: 40px; }
   .carousel-slide { grid-template-columns: 1fr; }
   .hero-meta { gap: 14px; flex-direction: column; }
   .studio-card { padding: 24px; }

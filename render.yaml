@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: atelier-nst-web
+    env: docker
+    plan: free
+    dockerfilePath: Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: FLASK_DEBUG
+        value: "0"
+      - key: PORT
+        value: "5000"

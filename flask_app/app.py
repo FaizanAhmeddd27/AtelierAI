@@ -1,11 +1,14 @@
 import json
 import uuid
+import time
 from pathlib import Path
 
 from flask import Flask, jsonify, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
 
 from inference import preview_image, style_transfer
+
+
 
 app = Flask(__name__)
 
@@ -173,4 +176,7 @@ def api_samples():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    import os
+    debug = os.environ.get("FLASK_DEBUG", "0") in ("1", "true", "True")
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=debug, host="0.0.0.0", port=port)
