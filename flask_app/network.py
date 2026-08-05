@@ -1,6 +1,29 @@
 import torch
 import torch.nn as nn
-import torchvision.models as models
+from pathlib import Path
+
+MODELS_DIR = Path(__file__).resolve().parent / "models"
+ENCODER_PATH = MODELS_DIR / "vgg19_encoder.pth"
+
+
+def build_vgg19_features():
+    return nn.Sequential(
+        nn.Conv2d(3, 64, 3, 1, 1), nn.ReLU(inplace=True),
+        nn.Conv2d(64, 64, 3, 1, 1), nn.ReLU(inplace=True),
+        nn.MaxPool2d(kernel_size=2, stride=2),
+
+        nn.Conv2d(64, 128, 3, 1, 1), nn.ReLU(inplace=True),
+        nn.Conv2d(128, 128, 3, 1, 1), nn.ReLU(inplace=True),
+        nn.MaxPool2d(kernel_size=2, stride=2),
+
+        nn.Conv2d(128, 256, 3, 1, 1), nn.ReLU(inplace=True),
+        nn.Conv2d(256, 256, 3, 1, 1), nn.ReLU(inplace=True),
+        nn.Conv2d(256, 256, 3, 1, 1), nn.ReLU(inplace=True),
+        nn.Conv2d(256, 256, 3, 1, 1), nn.ReLU(inplace=True),
+        nn.MaxPool2d(kernel_size=2, stride=2),
+
+        nn.Conv2d(256, 512, 3, 1, 1), nn.ReLU(inplace=True),
+    )
 
 
 def calc_mean_std(feat, eps=1e-5):
@@ -49,18 +72,22 @@ def build_decoder():
 
 
 class AdaINNet(nn.Module):
-    def __init__(self):
+    def __init__(self, encoder_path=ENCODER_PATH):
         super().__init__()
-        vgg = models.vgg19(weights=models.VGG19_Weights.IMAGENET1K_V1).features
-        layers = list(vgg.children())
+        features = build_vgg19_features()
+        if encoder_path and Path(encoder_path).exists():
+            features.load_state_dict(
+                torch.load(encoder_path, map_location="cpu", weights_only=True)
+            )
+        layers = list(features.children())
         self.enc_1 = nn.Sequential(*layers[:2])
         self.enc_2 = nn.Sequential(*layers[2:7])
         self.enc_3 = nn.Sequential(*layers[7:12])
         self.enc_4 = nn.Sequential(*layers[12:21])
-        
+
         for p in self.parameters():
             p.requires_grad = False
-        
+
         self.decoder = build_decoder()
 
     def encode(self, x):

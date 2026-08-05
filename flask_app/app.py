@@ -18,7 +18,7 @@ RESULT_FOLDER = BASE_DIR / "static" / "results"
 GALLERY_FOLDER = BASE_DIR / "static" / "gallery"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "bmp", "webp"}
 MANIFEST_PATH = GALLERY_FOLDER / "manifest.json"
-MAX_SIZE = 512
+MAX_SIZE = 448
 
 for folder in (UPLOAD_FOLDER, RESULT_FOLDER, GALLERY_FOLDER):
     folder.mkdir(parents=True, exist_ok=True)

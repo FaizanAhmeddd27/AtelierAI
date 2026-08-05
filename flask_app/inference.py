@@ -3,7 +3,6 @@ from pathlib import Path
 import numpy as np
 import torch
 from PIL import Image, ImageEnhance
-from torchvision import transforms
 
 from .network import AdaINNet, adain
 
@@ -24,7 +23,7 @@ def get_model():
 
         model = AdaINNet()
         model.decoder.load_state_dict(
-            torch.load(MODEL_PATH, map_location=device)
+            torch.load(MODEL_PATH, map_location=device, weights_only=True)
         )
         model.to(device)
         model.eval()
@@ -44,6 +43,16 @@ def preview_image(path, max_size=512):
     )
 
 
+def to_tensor(img):
+    arr = np.asarray(img, dtype=np.float32) / 255.0
+    return torch.from_numpy(arr).permute(2, 0, 1).unsqueeze(0)
+
+
+def to_pil(tensor):
+    arr = (tensor.squeeze(0).permute(1, 2, 0).clamp(0, 1).cpu().numpy() * 255).astype(np.uint8)
+    return Image.fromarray(arr, "RGB")
+
+
 def load_image(path, max_size=512):
     img = Image.open(path).convert("RGB")
     w, h = img.size
@@ -52,7 +61,7 @@ def load_image(path, max_size=512):
         (max(1, int(w * scale)), max(1, int(h * scale))),
         Image.LANCZOS,
     )
-    return transforms.ToTensor()(img).unsqueeze(0)
+    return to_tensor(img)
 
 
 def color_transfer(result, target):
@@ -92,9 +101,9 @@ def style_transfer(content_path, style_path, alpha=0.7, max_size=512):
 
     output = output.cpu().clamp(0, 1).squeeze(0)
 
-    result_img = transforms.ToPILImage()(output)
+    result_img = to_pil(output)
 
-    style_img = transforms.ToPILImage()(style.cpu().squeeze(0))
+    style_img = to_pil(style.cpu().squeeze(0))
 
     colored = color_transfer(result_img, style_img)
 
